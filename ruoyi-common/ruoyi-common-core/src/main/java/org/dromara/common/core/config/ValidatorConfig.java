@@ -29,7 +29,7 @@ public class ValidatorConfig {
             factoryBean.setProviderClass(HibernateValidator.class);
             Properties properties = new Properties();
             // 设置 快速异常返回
-            properties.setProperty("hibernate.validator.fail_fast", "true");
+            properties.setProperty("hibernate.validator.fail_fast", "true"); // 因为这个是公共模块所以不能用 yml
             factoryBean.setValidationProperties(properties);
             // 加载配置
             factoryBean.afterPropertiesSet();

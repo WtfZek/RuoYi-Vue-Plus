@@ -11,6 +11,11 @@ import lombok.EqualsAndHashCode;
  * @author Lion Li
  */
 
+/**
+ * 封装这么多 Body 其实都是和隐私数据有关的请求体
+ *
+ */
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class EmailLoginBody extends LoginBody {

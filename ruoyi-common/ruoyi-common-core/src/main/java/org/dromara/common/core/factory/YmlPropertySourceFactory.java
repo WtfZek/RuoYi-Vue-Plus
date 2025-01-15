@@ -18,14 +18,14 @@ public class YmlPropertySourceFactory extends DefaultPropertySourceFactory {
 
     @Override
     public PropertySource<?> createPropertySource(String name, EncodedResource resource) throws IOException {
-        String sourceName = resource.getResource().getFilename();
-        if (StringUtils.isNotBlank(sourceName) && StringUtils.endsWithAny(sourceName, ".yml", ".yaml")) {
+        String sourceName = resource.getResource().getFilename();   // 获取配置源文件名
+        if (StringUtils.isNotBlank(sourceName) && StringUtils.endsWithAny(sourceName, ".yml", ".yaml")) {   // yml文件才处理
             YamlPropertiesFactoryBean factory = new YamlPropertiesFactoryBean();
             factory.setResources(resource.getResource());
-            factory.afterPropertiesSet();
+            factory.afterPropertiesSet();   // 手动调用初始化方法，在 Spring 容器中，afterPropertiesSet() 通常由框架自动调用。但这里手动调用，是因为这个工厂类的实例是手动创建的
             return new PropertiesPropertySource(sourceName, factory.getObject());
         }
-        return super.createPropertySource(name, resource);
+        return super.createPropertySource(name, resource);  // 如果文件不是 YAML 格式，则调用父类的实现处理，DefaultPropertySourceFactory 默认支持加载 .properties 文件
     }
 
 }

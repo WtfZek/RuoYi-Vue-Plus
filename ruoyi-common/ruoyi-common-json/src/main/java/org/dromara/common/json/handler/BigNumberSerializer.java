@@ -16,9 +16,21 @@ import java.io.IOException;
 public class BigNumberSerializer extends NumberSerializer {
 
     /**
-     * 根据 JS Number.MAX_SAFE_INTEGER 与 Number.MIN_SAFE_INTEGER 得来
+     * 根据 JS Number.MAX_SAFE_INTEGER 得来
+     * <p>
+     * 注意：Java 和 MySQL 的 BigInt 类型支持更大的整数，范围为 {@code -2^63 + 1} 到 {@code 2^63 - 1}，
+     * 超出了 JS 的最大安全整数范围 {@code 2^53 - 1L}。
+     * 因此，Java 和 MySQL 可以处理比 JavaScript 安全整数范围更大的数值。
      */
     private static final long MAX_SAFE_INTEGER = 9007199254740991L;
+
+    /**
+     * 根据 JS Number.MIN_SAFE_INTEGER 得来
+     * <p>
+     * 注意：Java 和 MySQL 的 BigInt 类型支持更大的整数，范围为 {@code -2^63 + 1} 到 {@code 2^63 - 1}，
+     * 超出了 JS 的最大安全整数范围 {@code -2^53 - 1L}。
+     * 因此，Java 和 MySQL 可以处理比 JavaScript 安全整数范围更大的数值。
+     */
     private static final long MIN_SAFE_INTEGER = -9007199254740991L;
 
     /**

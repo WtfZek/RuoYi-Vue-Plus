@@ -219,22 +219,31 @@ public class SysDeptServiceImpl implements ISysDeptService, DeptService {
     }
 
     /**
-     * 校验部门是否有数据权限
+     * 校验当前用户是否有权限访问指定部门的数据。
+     * <p>
+     * 如果当前用户为超级管理员，则跳过权限验证，允许访问所有部门数据。
+     * 否则，会根据给定的部门 ID 校验该部门是否存在于数据库中或被路基删除，若不存在则抛出异常。
+     * </p>
+     * <p>
+     * 也就表示超级管理员是可以修改任何部门，包括被逻辑删除的部门。
+     * </p>
      *
-     * @param deptId 部门id
+     * @param deptId 要检查的部门 ID
+     * @throws ServiceException 如果部门 ID 不存在或当前用户没有权限访问该部门数据，将抛出该异常。
      */
     @Override
     public void checkDeptDataScope(Long deptId) {
         if (ObjectUtil.isNull(deptId)) {
             return;
         }
-        if (LoginHelper.isSuperAdmin()) {
+        if (LoginHelper.isSuperAdmin()) { // 超级管理员跳过权限检查
             return;
         }
         if (baseMapper.countDeptById(deptId) == 0) {
             throw new ServiceException("没有权限访问部门数据！");
         }
     }
+
 
     /**
      * 新增保存部门信息

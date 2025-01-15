@@ -26,12 +26,18 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ThreadPoolConfig {
 
     /**
-     * 核心线程数 = cpu 核心数 + 1
+     * 核心线程数 = cpu 核心数 + 1，加 1 是为了留出额外的线程处理系统可能存在的少量 I/O 密集型任务，避免 CPU 资源空闲，增加利用率
      */
     private final int core = Runtime.getRuntime().availableProcessors() + 1;
 
     private ScheduledExecutorService scheduledExecutorService;
 
+    /**
+     * 线程池
+     *
+     * 这里指定名称是为了避免混淆，因为现在方法名和返回值类名相同了，还有获取这个 bean
+     * @see
+     */
     @Bean(name = "threadPoolTaskExecutor")
     @ConditionalOnProperty(prefix = "thread-pool", name = "enabled", havingValue = "true")
     public ThreadPoolTaskExecutor threadPoolTaskExecutor(ThreadPoolProperties threadPoolProperties) {
